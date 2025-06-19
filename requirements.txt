@@ -1,8 +1,10 @@
 python-dotenv
-pandas 
+pandas>=1.5.0 
 numpy
 pymongo
 certifi
 #pymongo[srv]==3.6
 scikit-learn
+dill
+pyymal
 ##-e .
