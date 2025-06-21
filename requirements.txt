@@ -7,5 +7,9 @@ certifi
 scikit-learn
 dill
 pyyaml
-mlflow
+mlflow==2.7.1
+dagshub
+fastapi
+uvicorn
+python-multipart==0.0.6
 ##-e .

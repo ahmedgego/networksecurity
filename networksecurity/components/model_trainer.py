@@ -28,6 +28,10 @@ from sklearn.ensemble import (
 
 import mlflow
 
+import dagshub
+dagshub.init(repo_owner='ahmedgego', repo_name='networksecurity', mlflow=True)
+
+
 class ModelTrainer:
     def __init__(self,model_trainer_config:ModelTrainerConfig,data_transformation_artifact:DataTransformationArtifact):
         try:
@@ -48,6 +52,7 @@ class ModelTrainer:
             mlflow.sklearn.log_model(best_model,"model")
 
     def train_model(self,X_train,y_train,x_test,y_test):
+        
         models = {
             "Random Forest": RandomForestClassifier(verbose = 1),
             "Decision Tree": DecisionTreeClassifier(),
@@ -105,6 +110,7 @@ class ModelTrainer:
 
         self.track_mlfow(best_model,classification_test_metric)
 
+
         preprocessor = load_object(file_path=self.data_transformation_artifact.transformed_object_file_path)
             
         model_dir_path = os.path.dirname(self.model_trainer_config.trained_model_file_path)
@@ -112,6 +118,7 @@ class ModelTrainer:
 
         Network_Model = NetworkModel(preprocessor= preprocessor, model=best_model)
         save_object(self.model_trainer_config.trained_model_file_path,obj=NetworkModel)
+        save_object("final_model/model.pkl",best_model)
 
         ## Model Trainer Aritfact
         model_trainer_artifact= ModelTrainerArtifact(trained_model_file_path= self.model_trainer_config.trained_model_file_path,
